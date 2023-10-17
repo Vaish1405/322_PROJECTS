@@ -13,6 +13,7 @@ process createdProcesses[5];
 int turnAroundTime[5]; // stores the turn around times for all the processes in the list
 int count = 0; 
 int avgTurnAroundTime;
+char executed[5];
 
 // fills information in the array (name, arrival time and run time)
 void makeProcess(char name, int arr, int run) {
@@ -50,9 +51,42 @@ void prtOrderFIFO() {
     printf("Average Turn Around Time: %f\n", avgTurnAroundTime/5.0);
 }
 
+// method to check if the process is already executed 
+int isExecuted(char name) {
+    for(int i = 0; i < 5; i++) {
+        if(executed[i] == name) {
+            return 1;
+        }
+    }
+    return 0; 
+}
+
 // print order for shortest job first 
 void prtOrderSJF() {
-
+    printf("Name\t   Arrival\t   Wait time\t   Run time\tTurn Around time\n\t");
+    avgTurnAroundTime = 0;
+    char minProcess; 
+    int min, currentTime = 0, j = 0, k=0, minWait = 0, minRun = 0, arr=0; 
+    for (int i = 0; i < count; i++) {
+        min = 1000;
+        for (j = 0; j < count; j++) {
+            if(!isExecuted(createdProcesses[j].processName) && createdProcesses[j].arrivalTime <= currentTime){
+                if(createdProcesses[j].runTime < min) {
+                    min = createdProcesses[j].runTime;
+                    minProcess = createdProcesses[j].processName;
+                    minWait = currentTime-createdProcesses[j].arrivalTime;
+                    minRun = createdProcesses[j].runTime; 
+                    arr = createdProcesses[j].arrivalTime;
+                }
+            }
+        }
+        executed[k] = minProcess;
+        currentTime += min;
+        k++;
+        printf("%c\t\t%d\t\t%d\t\t%d\t\t%d\n\t", minProcess, arr, minWait, minRun, (minWait + minRun));
+        avgTurnAroundTime += minWait + minRun; 
+    }
+    printf("Average Turn Around Time: %f", avgTurnAroundTime / 5.0);
 }
 
 // main process 
@@ -67,5 +101,7 @@ int main() {
     printf("Performing FIFO (First In and First Out). The order of execution is:\n\n\t");
     prtOrderFIFO(); 
 
-    printf("Performing SJF (Shortest Job First). The order of execution is: \n\t");
+
+    printf("\nPerforming SJF (Shortest Job First). The order of execution is: \n\t");
+    prtOrderSJF();
 }
