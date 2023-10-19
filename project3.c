@@ -83,7 +83,7 @@ void prtOrderSJF() {
         printf("%c\t\t%d\t\t%d\t\t%d\t\t%d\n\t", minProcess, arr, minWait, minRun, (minWait + minRun)); // print the information accordingly 
         avgTurnAroundTime += minWait + minRun; // adding to the sum 
     }
-    printf("Average Turn Around Time: %f", avgTurnAroundTime / 5.0);
+    printf("Average Turn Around Time: %f\n", avgTurnAroundTime / 5.0);
 }
 
 // main process 
