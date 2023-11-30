@@ -51,16 +51,59 @@ void print_memory() {
     }
 }
 
+int first_fit(int block_size) {
+    int count = 0; 
+    for (int i = 0; i < counter; i++) {
+        if (memory[i].occupied == 0) {
+            if (memory[i].memory_space >= block_size) {
+                return count; 
+            }
+            count++;
+        } 
+    }
+    return 0;
+}
+
+int best_fit(int block_size) {
+    int i, best_fit = 100, best_fit_index = 0; 
+    for (i = 0; i < counter; i++) {
+        if (memory[i].occupied == 0 && memory[i].memory_space > block_size) {
+            if (memory[i].memory_space < best_fit) {
+                best_fit = memory[i].memory_space; 
+            }
+        }
+    }
+    return i;
+}
 
 int main() {
     int time1, time2, time3, time4; 
     // put some processes in the memory to start the program
     fill_memory(); 
-    print_memory(); 
-    // run first fit strategy for all 4M, 8M, 16M, 32M
+    // print_memory(); 
 
-    // run next fit strategy for all 4M, 8M, 16M, 32M
+    // run first fit strategy for all 4M, 8M, 16M, 32M
+    printf("First Fist: (time measured in number empty spaces skipped)\n");
+    printf("\t%d skips for 4M\n", time1 = first_fit(4));
+    printf("\t%d skips for 8M\n", time2 = first_fit(8));
+    printf("\t%d skips for 16M\n", time3 =  first_fit(16));
+    printf("\t%d skips for 32M\n", time4 = first_fit(32));
+    printf("Average memory Utilization: %f\n", (time1 + time2 + time3 + time4) / 4.0);
 
     // run best fit strategy for all 4M, 8M, 16M, 32M
-    
+    printf("\nBest Fist: (time measured in number empty spaces skipped)\n");
+    printf("\t%d skips for 4M\n", time1 = best_fit(4));
+    printf("\t%d skips for 8M\n", time2 = best_fit(8));
+    printf("\t%d skips for 16M\n", time3 = best_fit(16));
+    printf("\t%d skips for 32M\n", time4 = best_fit(32));
+    printf("Average memory Utilization: %f\n", (time1 + time2 + time3 + time4) / 4.0);
+
+    // run next fit strategy for all 4M, 8M, 16M, 32M
+    printf("\nBest Fist: (time measured in number empty spaces skipped)\n");
+    printf("\t%d skips for 4M\n", time1 = next_fit(4));
+    printf("\t%d skips for 8M\n", time2 = next_fit(8));
+    printf("\t%d skips for 16M\n", time3 = next_fit(16));
+    printf("\t%d skips for 32M\n", time4 = next_fit(32));
+    printf("Average memory Utilization: %f\n", (time1 + time2 + time3 + time4) / 4.0);
+
 }
